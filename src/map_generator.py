@@ -1,25 +1,23 @@
 import folium
 from typing import Optional, Sequence
 
-class MapGenerator(folium.Map):
-    
+class MapGenerator:
     def __init__(
         self, 
         location: Optional[Sequence[float]] = None,
-        map_name: Optional[str] = None,
         zoom_start: int = 13,
-        ):
-        super().__init__()
-        
+        map_name: Optional[str] = None,
+    ):
         if location is None:
-            self.location = [47.8722, -3.9216]
-        else:
-            self.location = location
-            
-        self._name = map_name or "Map"
-            
-        self.map = folium.Map(location=self.location, zoom_start=zoom_start)
+            location = [47.8722, -3.9216]  # Concarneau, par défaut
+
+        self.location = location
+        self.map_name = map_name or "Map"
         
+        # Création de la carte
+        self.map = folium.Map(location=self.location, zoom_start=zoom_start)
+
+        # Ajouter un fond spécifique (OpenSeaMap)
         folium.TileLayer(
             tiles='https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png',
             attr='Map data: © OpenSeaMap contributors',
@@ -27,14 +25,22 @@ class MapGenerator(folium.Map):
             overlay=True,
             control=True
         ).add_to(self.map)
-        
+
         folium.LayerControl().add_to(self.map)
+
+    def add_click_marker(self):
+        # Fonction qui active le mode d'ajout de marqueurs via clic
+        folium.ClickForMarker(popup='Nouveau marqueur').add_to(self.map)
+
+    def get_map_html(self):
+        # Retourner la carte en HTML pour l'intégrer dans le template
+        return self.map._repr_html_()
 
 def generate_marine_map(
     location: Optional[Sequence[float]] = None,
     map_name: Optional[str] = None,
     zoom_start: int = 13,
-    ):
+    ) -> folium.Map:
     
     if location is None:
         location = [47.8722, -3.9216]
