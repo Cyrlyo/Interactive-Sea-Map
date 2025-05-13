@@ -14,11 +14,13 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/", response_class=HTMLResponse)
 async def show_map(request: Request):
     m = generate_marine_map(location=[47.8722, -3.9216], map_name="sea_map")
-    # add_click_marker(m)
+
     custom_click_marker(m)
     
     map_html = m.get_root().render()
 
+    m.save("templates/generated_map.html")
+    
     return templates.TemplateResponse("map.html", {
         "request": request,
         "map_html": map_html

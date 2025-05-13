@@ -2,12 +2,15 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Carte Marine - Concarneau</title>
+    <title>Carte Marine</title>
     <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
 </head>
 <body>
-    <h2><center>🗺️ Carte Marine</center></h2>
-    <div class "bar-menu"></div>
+    <div class="button-div-1" id="button-div-1">
+        <div class="temp_title">🗺️ Carte Marine</div>
+        <button id="import_gpx_button" onclick="importGPX()">Import GPX</button>
+    </div>
+    <script src="{{ url_for('static', path='script.js') }}"></script>
     <div class="map">
         {{ map_html | safe }}
     </div>
