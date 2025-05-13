@@ -54,3 +54,5 @@ def generate_marine_map(
         ).add_to(sea_map)
     
     folium.LayerControl().add_to(sea_map)
+    
+    return sea_map
