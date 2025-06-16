@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Carte Marine - Ajouter des Marqueurs</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <style>
+        #map { height: 600px; }
+        button { margin: 10px; }
+    </style>
+</head>
+<body>
+    <h2>🗺️ Carte Marine avec Ajout de Marqueurs</h2>
+    <button onclick="activateClickToAddMarker()">Activer l'ajout de marqueurs</button>
+    <div id="map">{{ map_html | safe }}</div>
+
+    <script>
+        var sea_map = L.map('map').setView([47.8722, -3.9216], 13);
+
+        // Initialisation de la carte Folium
+        {{ map_html | safe }}
+
+        var isClickingEnabled = false;  // Variable pour suivre si le mode "click" est activé
+
+        function activateClickToAddMarker() {
+            isClickingEnabled = !isClickingEnabled;  // Alterner l'état de l'activation
+
+            if (isClickingEnabled) {
+                alert("Cliquez sur la carte pour ajouter un marqueur!");
+
+                // Activer la fonctionnalité ClickForMarker
+                sea_map.on('click', addMarkerOnClick);
+            } else {
+                alert("Mode ajout de marqueurs désactivé.");
+                
+                // Désactiver la fonctionnalité ClickForMarker
+                sea_map.off('click', addMarkerOnClick);
+            }
+        }
+
+        // Fonction qui permet d'ajouter un marqueur à la position cliquée
+        function addMarkerOnClick(e) {
+            var marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(sea_map);
+            marker.bindPopup("Marqueur ajouté à: " + e.latlng.toString()).openPopup();
+        }
+    </script>
+</body>
+</html>
