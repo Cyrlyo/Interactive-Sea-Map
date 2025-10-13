@@ -13,8 +13,9 @@
 
 .button-div-1 {
     /* margin-top: 10px; */
-    height: 7%;
+    height: 2%;
     width: 100%;
+    /* white-space: nowrap; */
 }
 
 #import_gpx_button {
